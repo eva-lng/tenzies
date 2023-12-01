@@ -7,6 +7,7 @@ import {useWindowSize} from 'react-use';
 export default function App() {
   const [dice, setDice] = useState(allNewDice())
   const [tenzies, setTenzies] = useState(false)
+  const [numOfRolls, setNumOfRolls] = useState(0)
   const { width, height } = useWindowSize()
 
   useEffect(() => {
@@ -35,11 +36,13 @@ export default function App() {
   function rollDice() {
     if (tenzies) {
       setDice(allNewDice())
+      setNumOfRolls(0)
       setTenzies(false)
     } else {
       setDice(prevDice => prevDice.map(die => (
         die.isHeld ? die : generateNewDie()
       )))
+      setNumOfRolls(prevNum => prevNum + 1)
     }
   }
 
@@ -63,6 +66,11 @@ export default function App() {
       {tenzies && <Confetti width={width} height={height} />}
       <h1 className="title">Tenzies</h1>
       <p className="instructions">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
+      <div className="stats-container">
+        <div className="rolls">
+          <p>Number of rolls: {numOfRolls}</p>
+        </div>
+      </div>
       <div className="dice-container">
         {diceElements}
       </div>
