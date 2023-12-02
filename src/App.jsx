@@ -8,11 +8,30 @@ export default function App() {
   const [dice, setDice] = useState(allNewDice())
   const [tenzies, setTenzies] = useState(false)
   const [numOfRolls, setNumOfRolls] = useState(0)
+  const [time, setTime] = useState(0)
+  const [running, setRunning] = useState(false)
   const { width, height } = useWindowSize()
 
   useEffect(() => {
+    let interval
+    if (running) {
+      interval = setInterval(() => {
+        setTime((prevTime) => prevTime + 10)
+      }, 10)
+    } else if (!running) {
+      clearInterval(interval)
+    }
+    return () => clearInterval(interval)
+  }, [running])
+
+  useEffect(() => {
     const firstValue = dice[0].value
+    const someHeld = dice.some(die => die.isHeld)
+    if (someHeld) {
+      setRunning(true)
+    }
     if (dice.every(die => die.isHeld && die.value === firstValue)) {
+      setRunning(false)
       setTenzies(true)
     }
   }, [dice])
@@ -37,8 +56,12 @@ export default function App() {
     if (tenzies) {
       setDice(allNewDice())
       setNumOfRolls(0)
+      setTime(0)
       setTenzies(false)
     } else {
+      if (!running) {
+        setRunning(true)
+      }
       setDice(prevDice => prevDice.map(die => (
         die.isHeld ? die : generateNewDie()
       )))
@@ -68,7 +91,13 @@ export default function App() {
       <p className="instructions">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
       <div className="stats-container">
         <div className="rolls">
-          <p>Number of rolls: {numOfRolls}</p>
+          <p>Rolls: {numOfRolls}</p>
+        </div>
+        <div className="currentTime">
+          <span>Time: </span>
+          <span>{("0" + Math.floor((time / 60000) % 60)).slice(-2)}:</span>
+          <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}:</span>
+          <span>{("0" + ((time / 10) % 100)).slice(-2)}</span>
         </div>
       </div>
       <div className="dice-container">
