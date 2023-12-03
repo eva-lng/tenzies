@@ -10,7 +10,25 @@ export default function App() {
   const [numOfRolls, setNumOfRolls] = useState(0)
   const [time, setTime] = useState(0)
   const [running, setRunning] = useState(false)
+  const [bestTime, setBestTime] = useState(0)
   const { width, height } = useWindowSize()
+
+  useEffect(() => {
+    const firstValue = dice[0].value
+    const someHeld = dice.some(die => die.isHeld)
+    if (someHeld) {
+      setRunning(true)
+    }
+    if (dice.every(die => die.isHeld && die.value === firstValue)) {
+      setRunning(false)
+      setTenzies(true)
+      let currentTime = time
+      if (currentTime < bestTime) {
+        setBestTime(currentTime)
+        localStorage.setItem("bestTime", JSON.stringify(currentTime))
+      }
+    }
+  }, [dice, time, bestTime])
 
   useEffect(() => {
     let interval
@@ -25,16 +43,11 @@ export default function App() {
   }, [running])
 
   useEffect(() => {
-    const firstValue = dice[0].value
-    const someHeld = dice.some(die => die.isHeld)
-    if (someHeld) {
-      setRunning(true)
+    const bestTime = JSON.parse(localStorage.getItem("bestTime"))
+    if (bestTime) {
+      setBestTime(bestTime)
     }
-    if (dice.every(die => die.isHeld && die.value === firstValue)) {
-      setRunning(false)
-      setTenzies(true)
-    }
-  }, [dice])
+  }, [])
   
   function generateNewDie() {
     return {
@@ -98,6 +111,18 @@ export default function App() {
           <span>{("0" + Math.floor((time / 60000) % 60)).slice(-2)}:</span>
           <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}:</span>
           <span>{("0" + ((time / 10) % 100)).slice(-2)}</span>
+        </div>
+        <div className="bestTime">
+          <span>Best: </span>
+          <span>
+			    	{("0" + Math.floor((bestTime / 60000) % 60)).slice(-2)}:
+			    </span>
+			    <span>
+			    	{("0" + Math.floor((bestTime / 1000) % 60)).slice(-2)}:
+			    </span>
+			    <span>
+			    	{("0" + ((bestTime / 10) % 100)).slice(-2)}
+			    </span>
         </div>
       </div>
       <div className="dice-container">
