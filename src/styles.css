@@ -134,8 +134,8 @@ footer {
 footer .line {
   height: 2px;
   background-color: #59E391;
-  width: 80%;
-  max-width: 456px;
+  width: 50%;
+  max-width: 350px;
 }
 
 .footer-text {
