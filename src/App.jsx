@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import Die from "./Die"
+import Footer from "./Footer"
 import { nanoid } from "nanoid"
 import Confetti from "react-confetti"
 import {useWindowSize} from 'react-use';
@@ -98,37 +99,38 @@ export default function App() {
   ))
   
   return (
-    <main>
-      {tenzies && <Confetti width={width} height={height} />}
-      <h1 className="title">Tenzies</h1>
-      <p className="instructions">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
-      <div className="stats-container">
+    <>
+      <main>
+        {tenzies && <Confetti width={width} height={height} />}
+        <h1 className="title">Tenzies</h1>
+        <p className="instructions">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
         <div className="rolls">
-          <p>Rolls: {numOfRolls}</p>
+          <h2>Rolls: {numOfRolls}</h2>
         </div>
-        <div className="currentTime">
-          <span>Time: </span>
-          <span>{("0" + Math.floor((time / 60000) % 60)).slice(-2)}:</span>
-          <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}:</span>
-          <span>{("0" + ((time / 10) % 100)).slice(-2)}</span>
+        <div className="time">
+          <div className="current">
+            <span>⏱️ {("0" + Math.floor((time / 60000) % 60)).slice(-2)}:</span>
+            <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}:</span>
+            <span>{("0" + ((time / 10) % 100)).slice(-2)}</span>
+          </div>
+          <div className="best">
+            <span>
+            🥇 {("0" + Math.floor((bestTime / 60000) % 60)).slice(-2)}:
+			      </span>
+			      <span>
+			      	{("0" + Math.floor((bestTime / 1000) % 60)).slice(-2)}:
+			      </span>
+			      <span>
+			      	{("0" + ((bestTime / 10) % 100)).slice(-2)}
+			      </span>
+          </div>
         </div>
-        <div className="bestTime">
-          <span>Best: </span>
-          <span>
-			    	{("0" + Math.floor((bestTime / 60000) % 60)).slice(-2)}:
-			    </span>
-			    <span>
-			    	{("0" + Math.floor((bestTime / 1000) % 60)).slice(-2)}:
-			    </span>
-			    <span>
-			    	{("0" + ((bestTime / 10) % 100)).slice(-2)}
-			    </span>
+        <div className="dice-container">
+          {diceElements}
         </div>
-      </div>
-      <div className="dice-container">
-        {diceElements}
-      </div>
-      <button className="roll-dice" onClick={rollDice}>{tenzies ? "New Game" : "Roll"}</button>
-    </main>
+        <button className="roll-dice" onClick={rollDice}>{tenzies ? "New Game" : "Roll"}</button>
+      </main>
+      <Footer />
+    </>
   )
 }
