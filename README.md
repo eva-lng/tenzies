@@ -3,8 +3,6 @@ Tenzies is a fast-paced dice game where the goal is to roll and match all dice t
 
 **Tech used:** React.js, Vite
 
-**Link to the project:**
-
 ## Usage
 ### Getting started
 1. clone the repository
@@ -28,7 +26,7 @@ Tenzies is a fast-paced dice game where the goal is to roll and match all dice t
 * time won't start until a first dice is selected
 
 ## Optimizations
-Planned future optimizations could include:
+Planned future optimizations include:
 * save the best rolls stat as well and display it on the page
 * implement light/dark mode
 * users can clear best scores
