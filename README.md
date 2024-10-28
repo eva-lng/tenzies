@@ -1,6 +1,9 @@
 # tenzies
 Tenzies is a fast-paced dice game where the goal is to roll and match all dice to the same number. Players can select dice to "freeze" their current value while re-rolling the remaining ones. The goal is to win in the fewest rolls and the shortest time. This project was created following the [React Scrimba course](https://v2.scrimba.com/learn-react-c0e), with several additional features implemented beyond the original version.
 
+![Screenshot 2024-10-28 at 16 20 39](https://github.com/user-attachments/assets/a42e5dc1-95a9-49fc-b68a-86a47ec853fc)
+
+
 ### Tech used
 ![Static Badge](https://img.shields.io/badge/React-grey?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![Static Badge](https://img.shields.io/badge/Vite-%23646CFF?style=for-the-badge&logo=vite&logoColor=yellow)
